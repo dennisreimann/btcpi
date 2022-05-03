@@ -9,12 +9,10 @@ on:
 jobs:
   release:
     runs-on: ubuntu-latest
-
     steps:
       - uses: actions/checkout@v2
         with:
           submodules: recursive
-
       - name: Write secrets.env
         env:
           SECRETS: ${{ secrets.SECRETS_ENV }}
@@ -22,14 +20,13 @@ jobs:
         run: |
           echo $SECRETS > $(dirname $PIFILE)/secrets.env
       - name: Build image
-        uses: Nature40/pimod@v0.2.2
+        uses: Nature40/pimod@v0.6.0
         with:
           pifile: btcpi.Pifile
-          
       - name: Make tarball
         run: |
           tar -czvf btcpi.tar.gz btcpi.img
-      - name: Publish binaries  
+      - name: Publish binaries
         uses: skx/github-action-publish-binaries@master
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
